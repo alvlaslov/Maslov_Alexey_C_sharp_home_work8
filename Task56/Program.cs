@@ -8,12 +8,30 @@
 //Программа считает сумму элементов в каждой строке и выдаёт номер строки с наименьшей суммой элементов: 1 строка
 
 Random random = new Random();
-int rows = random.Next(4, 5);
-int columns = random.Next(4, 5);
+int rows = random.Next(4, 7);
+int columns = random.Next(4, 7);
 int[,] array = new int[rows, columns];
+
 FillArray(array);
 PrintArray(array);
-RowMinSum(array);
+
+int indexMin = 0;
+int sumMin = RowSum(array, indexMin);
+Console.WriteLine();
+Console.WriteLine($"The {indexMin + 1} row with the sum of elements = {sumMin}");
+
+for (int i = 1; i < rows; i++)
+{
+    int sum = RowSum(array, i);
+    Console.WriteLine($"The {i + 1} row with the sum of elements = {sum}");
+    if (sum < sumMin)
+    {
+        sumMin = sum;
+        indexMin = i;
+    }
+}
+Console.WriteLine();
+Console.WriteLine($"The {indexMin + 1} row with the smallest sum of elements = {sumMin}");
 
 void FillArray(int[,] array, int startnumber = 0, int finishnumber = 10)
 {
@@ -44,27 +62,13 @@ void PrintArray(int[,] array)
     }
 }
 
-void RowMinSum(int[,] array)
+int RowSum(int[,] array, int i)
 {
-    int rows = array.GetLength(0);
     int columns = array.GetLength(1);
     int sum = 0;
-    int sum1 = 0;
-    int sum2 = 0;
-    int index = 0;
-    for (int i = 0; i < rows; i++)
+    for (int j = 0; j < columns; j++)
     {
-        sum2 = 0;
-        for (int j = 0; j < columns; j++)
-        {
-            sum2 += array[i, j];
-        }
-        if (sum2 < sum1)
-        {
-            sum = sum2;
-            index = i;
-        }
-        sum1 = sum2;
+        sum += array[i, j];
     }
-    Console.WriteLine ($"The {index +1} row with the smallest sum of elements = {sum}");
+    return sum;
 }
